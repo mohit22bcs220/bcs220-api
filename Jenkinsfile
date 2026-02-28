@@ -18,7 +18,7 @@ pipeline {
         stage('Run Container') {
             steps {
                 sh """
-                docker run -d -p ${PORT}:8000 \
+                docker run -d --network jenkins-net \
                 --name ${CONTAINER_NAME} ${IMAGE_NAME}
                 """
             }
@@ -58,7 +58,7 @@ pipeline {
                     def status = sh(
                         script: """
                         curl -s -o invalid.json -w "%{http_code}" \
-                        -X POST http://localhost:${PORT}/predict \
+                        -X POST http://ml_test_container:8000/predict
                         -H "Content-Type: application/json" \
                         -d @tests/invalid.json
                         """,
