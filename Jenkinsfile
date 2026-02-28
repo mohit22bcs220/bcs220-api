@@ -38,7 +38,7 @@ pipeline {
                     def status = sh(
                         script: """
                         curl -s -o response.json -w "%{http_code}" \
-                        -X POST http://localhost:${PORT}/predict \
+                        -X POST http://ml_test_container:8000/predict \
                         -H "Content-Type: application/json" \
                         -d @tests/valid.json
                         """,
